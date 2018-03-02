@@ -86,7 +86,7 @@ xSemaphoreGive ( xSemaphore ); //
 }
 void SWITCH2 ( void )
 {
-if ( LPC_GPIOINT -> IO2IntStatR & ( 1 << 8 ) || LPC_GPIOINT -> IO2IntStatF & ( 1 << 8 ))
+if ( LPC_GPIOINT -> IO2IntStatR & ( 1 << 8 ) || LPC_GPIOINT -> IO2IntStatF & ( 1 << 8 )) // Look at PDF to check Pin Numbers
 {
 LPC_GPIOINT -> IO2IntClr = ( 1 << 8 );
 printf ( "P2.7 Interrupt!\n" ); // PrintF to test interrupt
@@ -174,16 +174,19 @@ int main(int argc, char const *argv[])
 
 {
 const uint32_t STACK_SIZE = 1024;
-
+LabGPIOInterrupts :: Instance ()-> attachInterruptHandler ( 0 , 1 , SWITCH , 1 ); // Switch Test
 LabGPIOInterrupts :: Instance ()-> init ();
-LabGPIOInterrupts :: Instance ()-> attachInterruptHandler ( 0 , 1 , SWITCH , 1 );
 
 
-isr_register ( EINT3_IRQn , SWITCH );
+// Some other Shit...
 
-xSemaphore = xSemaphoreCreateBinary ();
+xSemaphore = xSemaphoreCreateBinary (); // Semaphore. Great...
+
+isr_register ( EINT3_IRQn , SWITCH ); // Register
+
+
+//// ALL CREATED TASKS GO BELOW
 xTaskCreate ( vControlLED , "LIT" , 1024 , ( void * ) 0 , PRIORITY_LOW , NULL );
-
 /*
 
     xTaskCreate(vTaskTwoCode, "t2", 1024, NULL, 1, NULL);

@@ -12,6 +12,10 @@
 
 class PWMDriver
 {
+
+private:
+    //    uint8_t portnum;
+     //   uint8_t pinnum;
 public:
     enum PWM_PIN
     {
@@ -22,9 +26,7 @@ public:
         PWM_PIN_2_4,    // PWM1.5
         PWM_PIN_2_5,    // PWM1.6
 
-private:
-        uint8_t portnum;
-        uint8_t pinnum;
+
     };
 
     /// Nothing needs to be done within the default constructor
@@ -43,7 +45,7 @@ private:
     *
     * @param pwm_pin_arg is the PWM_PIN enumeration of the desired pin.
     */
-    void pwmSelectPin(PWM_PIN 2_0);
+    void pwmSelectPin(PWM_PIN pwm_pin_arg);
 
     /**
     * Initialize your PWM peripherals.  See the notes here:
